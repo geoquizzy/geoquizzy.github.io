@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GeoQuizzy – TikTok connection</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .code{word-break:break-all;background:#183D69;border-radius:12px;padding:16px;font:600 15px/1.5 ui-monospace,Consolas,monospace;color:#fff}
+  button{margin-top:12px;background:#FFC93C;color:#0B2545;border:0;border-radius:999px;padding:12px 22px;font:700 16px system-ui;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<h1>TikTok connection</h1>
+<p id="msg" class="lead">Reading the authorization code…</p>
+<div id="box" style="display:none">
+  <p>Copy this code and paste it into the GeoQuizzy window (TIKTOK_BAGLAN.bat):</p>
+  <div class="code" id="code"></div>
+  <button id="copy" type="button">Copy code</button>
+</div>
+<footer><a href="index.html">GeoQuizzy home</a> &middot; <a href="privacy.html">Privacy Policy</a></footer>
+</main>
+<script>
+  var p = new URLSearchParams(location.search);
+  var code = p.get('code'), err = p.get('error_description') || p.get('error');
+  var msg = document.getElementById('msg');
+  if (code) {
+    msg.textContent = 'TikTok access was granted.';
+    document.getElementById('code').textContent = code;
+    document.getElementById('box').style.display = 'block';
+    document.getElementById('copy').onclick = function () {
+      navigator.clipboard.writeText(code).then(function () { document.getElementById('copy').textContent = 'Copied!'; });
+    };
+  } else {
+    msg.textContent = err ? ('TikTok returned an error: ' + err) : 'No code found in this address.';
+  }
+</script>
+</body>
+</html>
